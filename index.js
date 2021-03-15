@@ -5,7 +5,6 @@ var board_data=[];
 
 window.onload=function(){
   var board=document.getElementById("board");
-  init_boadeData();
 
   for(var x=0;x<8;x++){
     for(var y=0;y<8;y++){
@@ -20,10 +19,6 @@ window.onload=function(){
   }
 };//onloadの終わり
 
-function init_boadeData(){
-
-
-}
 
 function ban_set(cell){
   for (var x= 0;x < 8; x++) {
