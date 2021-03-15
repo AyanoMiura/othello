@@ -1,99 +1,66 @@
 //オセロ
-var black_stone='url("http://i.imgur.com/CLEpdaJ.png")';
-var white_stone='url("http://i.imgur.com/VZgXNBM.png")';
-var black=1;
-var white=-1;
-var field=[
-   [9, 9, 9, 9, 9, 9, 9, 9, 9, 9],
-  [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-  [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-  [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-  [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-  [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-  [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-  [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-  [9, 0, 0, 0, 0, 0, 0, 0, 0, 9],
-  [9, 9, 9, 9, 9, 9, 9, 9, 9, 9]];
+//1は黒、-1は白
+var turn=1;
+var board_data=[];
 
-var move_date=[[ 1, -1], [ 1, 0], [ 1, 1],
-                          [ 0, -1],            [ 0, 1],
-                          [-1, -1], [-1, 0], [-1, 1]
-                        ];
+window.onload=function(){
+  var board=document.getElementById("board");
+  init_boadeData();
 
-//盤に表示
-window.onload = function(){
-  //初期
-  id_set();
-  ban_init();
-
-  //盤の初期セット
-  function id_set(){
-  //td全てにidをつける
-  var td=document.getElementsByTagName('#board td');
-  var d=document.createDocumentFragment();
-  for(var x=1;x<9;x++){
-  for(var y=1;y<9;y++){
-    var s=document.createElement("lavel");
-    s.id="p"+x+y;
-    d.appendChild(s);
-  }
-  }
-  for (var i = 0; i < td.length; i++) {
-  td[i].appendChild(d);
-  }
-  };
-  //盤の初期設定
-  function ban_init(){
-    for(var x=1;x<9;x++){
-      for(var y=1;y<9;y++){
-        field[x][y]=0;
-      }
-    }
-    field[4][4]=white;
-    field[4][5]=black;
-    field[5][4]=white;
-    field[5][5]=black;
-    put_stone(x,y,field[x][y]);
-  };
-
-  //相手が白か黒か把握
-  function get_opponent(player){
-    return player*(-1);
-  };
-
-
-  function get_img(player){
-    return (player==black)?black_stone:white_stone;
-  };
-
-  //turnの交代
-  function chenge_turn(player){
-    if(player==black){
-      player=white;
-    }else if (player==white) {
-      player=black;
-    }
-  };
-
-
-  //石を置く処理
-  function put_stone(x,y,player){
-  for(var x=1;x<9;x++){
-    for(var y=1;y<9;y++){
-      var f=document.getElementById("p"+x+y);
-      switch (field[x][y]) {
-        case 0:
-          break;
-        case 1:
-          f.style.backgroundImage=get_img(player);
-          break;
-        case -1:
-          f.style.backgroundImage=get_img(player);
-          break;
-      }
+  for(var x=0;x<8;x++){
+    for(var y=0;y<8;y++){
+      var select_cell=board.rows[x].cells[y];
+      select_cell.onclick=function(){
+        //クリックした時の動作
+        ban_set(select_cell);
+        chenge_turn();
+        console.log(select_cell);
+     }
     }
   }
-  };
+};//onloadの終わり
+
+function init_boadeData(){
 
 
-};
+}
+
+function ban_set(cell){
+  for (var x= 0;x < 8; x++) {
+       board_data[x] = [];
+       for (var y = 0; y < 8; y++) {
+           board_data[x][y] =0;
+       }
+   }
+   board_data[3][3]=-1;
+   board_data[3][4]=1;
+   board_data[4][4]=-1;
+   board_data[4][3]=1;
+   //全てのセルにidを振る
+ for(var x = 0; x< board.rows.length;x++){
+  for(var y = 0; y < board.rows[x].cells.length;y++){
+   board.rows[x].cells[y].id = "p" + x + y;
+   }
+ }
+  //idごとに値を設定
+  var piece_img=document.createElement('img');
+  for (var x= 0;x < 8; x++) {
+    for (var y = 0; y < 8; y++) {
+     if (turn==1) {
+       if( board_data[x][y]==1){
+  　    piece_img.src="game_reversi_black.png";
+       }
+  　}else if (turn==-1) {
+       if( board_data[x][y]==-1){
+    　  piece_img.src="game_reversi_white.png";
+       }
+     }　
+    cell.appendChild(piece_img);
+    }
+   }
+ }
+
+//turnの交代
+function chenge_turn(){
+  turn=turn*-1;
+}
