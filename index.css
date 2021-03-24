@@ -1,0 +1,45 @@
+*{
+  box-sizing: border-box;
+}
+
+#board{
+  background-color: black;
+  border: 10px solid black;
+}
+
+td{
+  background-color: green;
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  position: relative;
+  z-index: 0;
+}
+
+/*.black:before {
+  color: black;
+  content: "●";
+  position: absolute;
+  top: 5px;
+  left: -10px;
+  font-size: 120px;
+}
+
+ .white:before {
+     color: white;
+     content: "●";
+     position: absolute;
+     top: 5px;
+     left: -10px;
+     font-size: 120px;
+  }*/
+
+img{
+  z-index: 1;
+  width: 90px;
+  height:90px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
